@@ -1,20 +1,34 @@
 <div class="main-container">
-    <input [(ngModel)]="userInput2" (ngModelChange)="convert()"/>
-    <select #c1 name="" id="currency1" (mouseleave)="changebase(c1.value); convert()">
-        <option value="UAH">UAH - Ukrainian hryvnia</option>
-        <option value="USD">USD - United States dollar</option>
-        <option value="EUR">EUR - Euro</option>
-        <option value="GBP">GBP - British Pound</option>
-    </select>
-    <span>to</span>
-    <select #c2 name="" id="currency1" (mouseleave)="tocurrency(c2.value); convert()">
-        <option value="UAH">UAH - Ukrainian hryvnia</option>
-        <option value="USD">USD - United States dollar</option>
-        <option value="EUR">EUR - Euro</option>
-        <option value="GBP">GBP - British Pound</option>
-    </select>
-  <div class="result-container" *ngIf="userInput2">
-    <p>Result:</p>
-    <p>{{userInput2}} {{base}} = {{finalresult}} {{cont2}}</p>
+  <h1 class="h1">Currency converter</h1>
+
+  <div class="select_currency_box">
+    <div class="select_box">
+      <div>
+        <label>Amount</label><br>
+        <input [(ngModel)]="userInput" (ngModelChange)="convertCurrency()" class="input_amount" type="number" min="0" oninput="validity.valid||(value='');" placeholder="Enter amount"/>
+      </div>
+      <div>
+        <label>From</label><br>
+        <select #firstCurr name="" id="currency" class="select" (mouseleave)="changeFirstCurrency(firstCurr.value); convertCurrency()">
+          <option value="UAH">UAH - Ukrainian hryvnia</option>
+          <option value="USD">USD - United States dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+        </select>
+      </div>
+      <div>
+        <label>To</label><br>
+        <select #secondCurr name="" class="select" (mouseleave)="changeSecondCurrency(secondCurr.value); convertCurrency()">
+          <option value="UAH">UAH - Ukrainian hryvnia</option>
+          <option value="USD">USD - United States dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+        </select>
+      </div>
+    </div>
+  
+  </div>
+  <div class="result-container" *ngIf="userInput">
+    <p>Result: {{userInput}} <span class="p_result_currency">{{firstCurrency}}</span> = {{result}} <span class="p_result_currency">{{secondCurrency}}</span></p>
   </div>
 </div>

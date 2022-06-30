@@ -16,51 +16,52 @@ export class CurrencyConverterComponent {
   title = 'currency_converter';
   currjson: any = [];
 
-  base = 'UAH';
-  cont2 = 'UAH';
+  firstCurrency = 'UAH';
+  secondCurrency = 'UAH';
+  currentRate: number | undefined;
+  userInput: number | undefined;
   result: number | undefined;
-  userInput2: number | undefined;
-  finalresult: number | undefined;
-  SimpleChanges: any;
 
-  changebase(a: string) {
-    this.base = a;
+  changeFirstCurrency(firstCurr: string) {
+    this.firstCurrency = firstCurr;
   }
 
-  tocurrency(b: string) {
-    this.cont2 = b;
+  changeSecondCurrency(secondCurr: string) {
+    this.secondCurrency = secondCurr;
   }
 
-  convert() {
-    this.currency.getcurrencydata(this.base).subscribe(data => {
-      this.currjson = JSON.stringify(data)
-      this.currjson = JSON.parse(this.currjson)
+  convertCurrency() {
+    this.currency.getCurrencyData(this.firstCurrency).subscribe(data => {
 
-      if (this.cont2 == 'UAH'){
-        this.result = this.currjson.rates.UAH;
-        this.calculateCurrency();
-      }
+      this.currjson = JSON.stringify(data);
+      this.currjson = JSON.parse(this.currjson);
 
-      if (this.cont2 == 'USD'){
-        this.result = this.currjson.rates.USD;
-        this.calculateCurrency();
-      }
-
-      if (this.cont2 == 'EUR'){
-        this.result = this.currjson.rates.EUR;
-        this.calculateCurrency();
-      }
-
-      if (this.cont2 == 'GBP'){
-        this.result = this.currjson.rates.GBP;
-        this.calculateCurrency();
+      switch (this.secondCurrency) {
+        case 'UAH':
+          this.currentRate = this.currjson.rates.UAH;
+          this.calculateCurrency();
+          break;
+        case 'USD':
+          this.currentRate = this.currjson.rates.USD;
+          this.calculateCurrency();
+          break;
+        case 'EUR':
+          this.currentRate = this.currjson.rates.EUR;
+          this.calculateCurrency();
+          break;
+        case 'GBP':
+          this.currentRate = this.currjson.rates.GBP;
+          this.calculateCurrency(); 
+          break;
+        default:
+          console.log(`Error`);
       }
     })
   }
 
   calculateCurrency() {
-    if(this.userInput2 && this.result) {
-      this.finalresult = this.userInput2 * this.result;
+    if(this.userInput && this.currentRate) {
+      this.result = this.userInput * this.currentRate;
     }
   }
 

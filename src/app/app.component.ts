@@ -17,18 +17,20 @@ export class AppComponent {
   currentValEur: number | undefined;
 
   ngAfterViewInit() {
-    this.currency.getonlinecurrencydata('usd').subscribe(data => {
-      this.currjson = JSON.stringify(data)
-      this.currjson = JSON.parse(this.currjson)
+    this.getCurrency('usd');
+    this.getCurrency('eur');
+  }
 
-      this.currentValUsd = this.currjson.rates.UAH
-    })
+  getCurrency(currency: string) {
+    this.currency.getOnlineCurrencyData(currency).subscribe(data => {
+      this.currjson = JSON.stringify(data);
+      this.currjson = JSON.parse(this.currjson);
 
-    this.currency.getonlinecurrencydata('eur').subscribe(data => {
-      this.currjson = JSON.stringify(data)
-      this.currjson = JSON.parse(this.currjson)
-
-      this.currentValEur = this.currjson.rates.UAH
+      if (currency === 'usd') {
+        this.currentValUsd = this.currjson.rates.UAH;
+      } else {
+        this.currentValEur = this.currjson.rates.UAH;
+      }
     })
   }
 }

@@ -1,0 +1,56 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: 10% 10%;
+}
+
+.select_box {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 32px;
+}
+
+.h1 {
+    text-align: center;
+    font-size: 64px;
+    margin-bottom: 36px;
+}
+
+.select {
+    font-size: 16px;
+    padding: 16px 32px;
+    margin-right: 16px;
+}
+
+.select:focus {
+    border: 1px solid #fff;
+}
+
+.input_amount {
+    font-size: 16px;
+    padding: 16px 32px;
+    margin-right: 16px;
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.select:hover {
+    cursor: pointer;
+}
+
+.result-container {
+    font-size: 24px;
+}
+
+.p_result_currency {
+    font-size: 18px;
+}
