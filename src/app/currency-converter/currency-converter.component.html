@@ -1,0 +1,20 @@
+<div class="main-container">
+    <input [(ngModel)]="userInput2" (ngModelChange)="convert()"/>
+    <select #c1 name="" id="currency1" (mouseleave)="changebase(c1.value); convert()">
+        <option value="UAH">UAH - Ukrainian hryvnia</option>
+        <option value="USD">USD - United States dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="GBP">GBP - British Pound</option>
+    </select>
+    <span>to</span>
+    <select #c2 name="" id="currency1" (mouseleave)="tocurrency(c2.value); convert()">
+        <option value="UAH">UAH - Ukrainian hryvnia</option>
+        <option value="USD">USD - United States dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="GBP">GBP - British Pound</option>
+    </select>
+  <div class="result-container" *ngIf="userInput2">
+    <p>Result:</p>
+    <p>{{userInput2}} {{base}} = {{finalresult}} {{cont2}}</p>
+  </div>
+</div>
