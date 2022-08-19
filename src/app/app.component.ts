@@ -25,11 +25,12 @@ export class AppComponent {
     this.currency.getOnlineCurrencyData(currency).subscribe(data => {
       this.currjson = JSON.stringify(data);
       this.currjson = JSON.parse(this.currjson);
+      let ratesUAH = this.currjson.rates.UAH;
 
       if (currency === 'usd') {
-        this.currentValUsd = this.currjson.rates.UAH;
+        this.currentValUsd = ratesUAH.toFixed(2);
       } else {
-        this.currentValEur = this.currjson.rates.UAH;
+        this.currentValEur = ratesUAH.toFixed(2);
       }
     })
   }

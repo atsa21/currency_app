@@ -9,26 +9,24 @@
       </div>
       <div>
         <label>From</label><br>
-        <select #firstCurr name="" id="currency" class="select" (mouseleave)="changeFirstCurrency(firstCurr.value); convertCurrency()">
-          <option value="UAH">UAH - Ukrainian hryvnia</option>
-          <option value="USD">USD - United States dollar</option>
-          <option value="EUR">EUR - Euro</option>
-          <option value="GBP">GBP - British Pound</option>
+        <select class="select" [(ngModel)]="selectedFirstCurrency" name="curOne" (mouseleave)="convertCurrency()" required>
+          <option *ngFor="let curOne of firstCurrency" [value]="curOne.value">
+            {{curOne.currency}}
+          </option>
         </select>
       </div>
       <div>
         <label>To</label><br>
-        <select #secondCurr name="" class="select" (mouseleave)="changeSecondCurrency(secondCurr.value); convertCurrency()">
-          <option value="UAH">UAH - Ukrainian hryvnia</option>
-          <option value="USD">USD - United States dollar</option>
-          <option value="EUR">EUR - Euro</option>
-          <option value="GBP">GBP - British Pound</option>
+        <select class="select" [(ngModel)]="selectedSecondCurrency" name="curTwo" (mouseleave)="convertCurrency()" required>
+          <option *ngFor="let curTwo of secondCurrency" [value]="curTwo.value">
+            {{curTwo.currency}}
+          </option>
         </select>
       </div>
     </div>
   
   </div>
-  <div class="result-container" *ngIf="userInput">
-    <p>Result: {{userInput}} <span class="p_result_currency">{{firstCurrency}}</span> = {{result}} <span class="p_result_currency">{{secondCurrency}}</span></p>
+  <div class="result-container" *ngIf="userInput && selectedFirstCurrency && selectedSecondCurrency">
+    <p>Result: {{userInput}} <span class="p_result_currency">{{selectedFirstCurrency}}</span> = {{result}} <span class="p_result_currency">{{selectedSecondCurrency}}</span></p>
   </div>
 </div>

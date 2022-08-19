@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CurrencyapidataService } from '../currency/currencyapidata.service';
 
+interface Cur {
+  value: string;
+  currency: string;
+}
+
 @Component({
   selector: 'app-currency-converter',
   templateUrl: './currency-converter.component.html',
@@ -16,52 +21,44 @@ export class CurrencyConverterComponent {
   title = 'currency_converter';
   currjson: any = [];
 
-  firstCurrency = 'UAH';
-  secondCurrency = 'UAH';
+  selectedFirstCurrency: string = 'UAH';
+  selectedSecondCurrency: string = 'USD';
+
   currentRate: number | undefined;
   userInput: number | undefined;
-  result: number | undefined;
+  result: string | undefined;
 
-  changeFirstCurrency(firstCurr: string) {
-    this.firstCurrency = firstCurr;
-  }
+  firstCurrency: Cur[] = [
+    {value: 'UAH', currency: 'UAH - Ukrainian hryvnia'},
+    {value: 'USD', currency: 'USD - United States dollar'},
+    {value: 'EUR', currency: 'EUR - Euro'},
+    {value: 'EUR', currency: 'GBP - British Pound'},
+  ];
 
-  changeSecondCurrency(secondCurr: string) {
-    this.secondCurrency = secondCurr;
-  }
+  secondCurrency: Cur[] = [
+    {value: 'UAH', currency: 'UAH - Ukrainian hryvnia'},
+    {value: 'USD', currency: 'USD - United States dollar'},
+    {value: 'EUR', currency: 'EUR - Euro'},
+    {value: 'EUR', currency: 'GBP - British Pound'},
+  ];
 
   convertCurrency() {
-    this.currency.getCurrencyData(this.firstCurrency).subscribe(data => {
+    this.currency.getCurrencyData(this.selectedFirstCurrency).subscribe(data => {
 
       this.currjson = JSON.stringify(data);
       this.currjson = JSON.parse(this.currjson);
 
-      switch (this.secondCurrency) {
-        case 'UAH':
-          this.currentRate = this.currjson.rates.UAH;
-          this.calculateCurrency();
-          break;
-        case 'USD':
-          this.currentRate = this.currjson.rates.USD;
-          this.calculateCurrency();
-          break;
-        case 'EUR':
-          this.currentRate = this.currjson.rates.EUR;
-          this.calculateCurrency();
-          break;
-        case 'GBP':
-          this.currentRate = this.currjson.rates.GBP;
-          this.calculateCurrency(); 
-          break;
-        default:
-          console.log(`Error`);
-      }
+      let value = this.selectedSecondCurrency;
+      this.currentRate = this.currjson.rates[value]
+      this.calculateCurrency();
+
     })
   }
 
   calculateCurrency() {
     if(this.userInput && this.currentRate) {
-      this.result = this.userInput * this.currentRate;
+      let res = this.userInput * this.currentRate;
+      this.result = res.toFixed(2);
     }
   }
 
