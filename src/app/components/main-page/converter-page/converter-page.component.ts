@@ -28,7 +28,7 @@ export class ConverterPageComponent implements OnInit {
   ngOnInit(): void {}
 
   public convertCurrency(): void {
-    this.currencyService.getCurrencyData(this.firstCurrency).subscribe(data => {
+    this.currencyService.getCurrency(this.firstCurrency).subscribe(data => {
       const res = JSON.stringify(data);
       const currjson = JSON.parse(res);
       const value = this.secondCurrency;

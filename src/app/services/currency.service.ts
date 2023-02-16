@@ -1,21 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { OnlineCurrency } from '../models/online-currency';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyService {
 
-  private url: string = 'https://api.exchangerate.host/latest?base=';
+  private url: string = 'https://api.exchangerate.host/';
 
   constructor(private http: HttpClient) {}
 
-  getCurrencyData(currency: string): Observable<any> {
-    return of(this.http.get(`${this.url}${currency}`));
+  public getCurrency(currency: string): Observable<OnlineCurrency> {
+    return this.http.get<OnlineCurrency>(`${this.url}/latest?base=${currency}`);
   }
-  
-  getOnlineCurrencyData(onlineCurrency: string): Observable<any> {
-    return of(this.http.get(`${this.url}${onlineCurrency}`));
+
+  public getConvertedValue(from: string, to: string): Observable<any> {
+    return this.http.get<any>(`${this.url}/convert?from=${from}&to=${to}`);
   }
 }

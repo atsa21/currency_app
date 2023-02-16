@@ -14,16 +14,17 @@ export class MainPageComponent implements OnInit {
   constructor(private currencyService: CurrencyService) { }
 
   ngOnInit(): void {
-    this.getCurrency('usd');
-    this.getCurrency('eur');
+    this.getCurrency('USD');
+    this.getCurrency('EUR');
   }
 
   private getCurrency(currency: string): void {
-    this.currencyService.getOnlineCurrencyData(currency).subscribe(data => {
+    this.currencyService.getCurrency(currency).subscribe(data => {
+      console.log(data);
       const res = JSON.stringify(data);
       const currjson = JSON.parse(res);
       const convertedValue = currjson.rates.UAH.toFixed(2)
-      currency === 'usd' ? this.usd = convertedValue : this.eur = convertedValue;
+      currency === 'USD' ? this.usd = convertedValue : this.eur = convertedValue;
     })
   }
 
