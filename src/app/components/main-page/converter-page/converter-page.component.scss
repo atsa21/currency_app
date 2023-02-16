@@ -23,19 +23,28 @@
     font-size: 16px;
     padding: 16px 32px;
     margin-right: 16px;
-}
 
-.select:focus {
-    border: 1px solid #fff;
+    &:focus {
+        border: 1px solid var(--white);
+    }
 }
 
 .input-amount {
     font-size: 16px;
     padding: 16px 32px;
     margin-right: 16px;
-    background-color: transparent;
-    border: 1px solid #fff;
-    color: #fff;
+    background-color: var(--black);
+    border: 1px solid var(--white);
+    color: var(--white);
+
+    &:focus {
+        outline: 0;
+        border-radius: 0;
+    }
+}
+
+.input-error {
+    border: 1px solid var(--warning);
 }
 
 input::-webkit-outer-spin-button,
@@ -47,12 +56,10 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-.result-container {
-    font-size: 24px;
-}
-
-.p-result-currency {
-    font-size: 18px;
+.error {
+    display: flex;
+    position: absolute;
+    font-size: 12px;
 }
 
 .btn {

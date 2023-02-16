@@ -1,0 +1,17 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+  $primary: mat-palette($mat-purple,100);
+  $accent: mat-palette($mat-deep-orange,300);
+
+  $theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+
+:root {
+    --backgroung: rgb(31, 31, 31);
+    --black: rgb(20, 20, 20);
+    --white: rgb(255, 255, 255);
+    --danger: #F24535;
+    --warning: #F29F05;
+}

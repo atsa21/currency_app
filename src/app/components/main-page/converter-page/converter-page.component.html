@@ -5,25 +5,25 @@
         <div>
             <input
                 [value]="firstAmount?.value"
+                [ngClass]="firstAmount?.value && firstAmount?.invalid ? 'input-error' : ''"
                 class="input-amount"
                 formControlName="firstAmount"
                 type="number"
-                min="0"
                 placeholder="Enter amount"
-                (keyup)="convertCurrency('from', firstAmount?.value)"
+                (keyup)="convertCurrency('from', firstAmount)"
             />
             <select
                 formControlName="firstCurrency" 
                 class="select" 
                 name="from" 
                 required 
-                (change)="convertCurrency('from', firstAmount?.value)"
+                (change)="convertCurrency('from', firstAmount)"
             >
                 <option *ngFor="let from of currency" [value]="from.value">
                     {{ from.name }}
                 </option>
             </select>
-            <span *ngIf="firstAmount?.touched && firstAmount?.errors?.['pattern']" class="error">The minimum of amount value is 0.01</span>
+            <span *ngIf="firstAmount?.value && firstAmount?.errors?.['min']" class="error">The amount minimum is 0,01</span>
         </div>
         <div class="btn" (click)="switchValues()">
             <i class="fa-solid fa-arrow-right-arrow-left"></i>
@@ -31,24 +31,26 @@
         <div>
             <input
                 [value]="secondAmount?.value" 
+                [ngClass]="secondAmount?.value && secondAmount?.invalid ? 'input-error' : ''"
                 class="input-amount" 
-                FormControlName="secondAmount" 
-                type="number" 
-                min="0" 
+                formControlName="secondAmount" 
+                min="0"
+                type="number"
                 placeholder="Enter amount" 
-                (keyup)="convertCurrency('to', secondAmount?.value)"
+                (keyup)="convertCurrency('to', secondAmount)"
             />
             <select 
                 formControlName="secondCurrency" 
                 class="select" 
                 name="to" 
                 required 
-                (change)="convertCurrency('from', secondAmount?.value)"
+                (change)="convertCurrency('from', firstAmount)"
             >
                 <option *ngFor="let to of currency" [value]="to.value">
                   {{ to.name }}
                 </option>
             </select>
+            <span *ngIf="secondAmount?.value && secondAmount?.errors?.['min']" class="error">The amount minimum is 0,01</span>
         </div>
     </form>
     </div>
