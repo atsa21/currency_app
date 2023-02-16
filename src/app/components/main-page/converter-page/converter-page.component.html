@@ -1,0 +1,32 @@
+<div class="main-container">
+    <h1 class="h1">Currency converter</h1>
+  
+    <div class="select-currency-box">
+      <div class="select-box">
+        <div>
+          <label>Amount</label><br>
+          <input [(ngModel)]="userInput" class="input-amount" type="number" min="0" oninput="validity.valid||(value='');" placeholder="Enter amount" (ngModelChange)="convertCurrency()"/>
+        </div>
+        <div>
+          <label>From</label><br>
+          <select [(ngModel)]="firstCurrency" class="select" name="curOne" (mouseleave)="convertCurrency()" required>
+            <option *ngFor="let curOne of currency" [value]="curOne.value">
+              {{ curOne.name }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label>To</label><br>
+          <select [(ngModel)]="secondCurrency" class="select" name="curTwo" (mouseleave)="convertCurrency()" required>
+            <option *ngFor="let curTwo of currency" [value]="curTwo.value">
+              {{ curTwo.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    
+    </div>
+    <div class="result-container" *ngIf="userInput && firstCurrency && secondCurrency">
+      <p>Result: {{ userInput }} <span class="p-result-currency">{{ firstCurrency }}</span> = {{result}} <span class="p-result-currency">{{ secondCurrency }}</span></p>
+    </div>
+  </div>
