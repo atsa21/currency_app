@@ -1,32 +1,26 @@
 <div class="main-container">
-    <h1 class="h1">Currency converter</h1>
-  
+    <h1 class="title">Currency converter</h1>
     <div class="select-currency-box">
       <div class="select-box">
         <div>
-          <label>Amount</label><br>
-          <input [(ngModel)]="userInput" class="input-amount" type="number" min="0" oninput="validity.valid||(value='');" placeholder="Enter amount" (ngModelChange)="convertCurrency()"/>
-        </div>
-        <div>
-          <label>From</label><br>
-          <select [(ngModel)]="firstCurrency" class="select" name="curOne" (mouseleave)="convertCurrency()" required>
-            <option *ngFor="let curOne of currency" [value]="curOne.value">
-              {{ curOne.name }}
+          <input [(ngModel)]="firstAmount" FormControlName="amountFirstControl" class="input-amount" type="number" min="0" placeholder="Enter amount" (ngModelChange)="convertCurrency('from', firstAmount)"/>
+          <select [(ngModel)]="fromCurrency" class="select" name="from" (mouseleave)="convertCurrency('from', firstAmount)" required>
+            <option *ngFor="let from of currency" [value]="from.value">
+              {{ from.name }}
             </option>
           </select>
         </div>
+        <div class="btn" (click)="switchValues()">
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </div>
         <div>
-          <label>To</label><br>
-          <select [(ngModel)]="secondCurrency" class="select" name="curTwo" (mouseleave)="convertCurrency()" required>
-            <option *ngFor="let curTwo of currency" [value]="curTwo.value">
-              {{ curTwo.name }}
-            </option>
-          </select>
+            <input [(ngModel)]="secondAmount" FormControlName="amountSecondControl" class="input-amount" type="number" min="0" placeholder="Enter amount" (ngModelChange)="convertCurrency('to', secondAmount)"/>
+            <select [(ngModel)]="toCurrency" class="select" name="to" (mouseleave)="convertCurrency('to', secondAmount)" required>
+                <option *ngFor="let to of currency" [value]="to.value">
+                  {{ to.name }}
+                </option>
+            </select>
         </div>
       </div>
-    
-    </div>
-    <div class="result-container" *ngIf="userInput && firstCurrency && secondCurrency">
-      <p>Result: {{ userInput }} <span class="p-result-currency">{{ firstCurrency }}</span> = {{result}} <span class="p-result-currency">{{ secondCurrency }}</span></p>
     </div>
   </div>

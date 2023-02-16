@@ -13,10 +13,18 @@ export class CurrencyService {
   constructor(private http: HttpClient) {}
 
   public getCurrency(currency: string): Observable<OnlineCurrency> {
-    return this.http.get<OnlineCurrency>(`${this.url}/latest?base=${currency}`);
+    const queryParams = {
+      symbols: 'UAH',
+      places: 2
+    };
+    return this.http.get<OnlineCurrency>(`${this.url}/latest?base=${currency}`, { params: queryParams });
   }
 
-  public getConvertedValue(from: string, to: string): Observable<any> {
-    return this.http.get<any>(`${this.url}/convert?from=${from}&to=${to}`);
+  public getConvCurrency(from: string, to: string, value: number): Observable<any> {
+    const queryParams = {
+      places: 2,
+      amount: value
+    };
+    return this.http.get<any>(`${this.url}/convert?from=${from}&to=${to}`, { params: queryParams });
   }
 }

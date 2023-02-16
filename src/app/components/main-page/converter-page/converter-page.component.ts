@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Currency } from 'src/app/models/currency';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-converter-page',
@@ -9,14 +11,15 @@ import { CurrencyService } from 'src/app/services/currency.service';
 })
 export class ConverterPageComponent implements OnInit {
 
-  public firstCurrency: string = 'UAH';
-  public secondCurrency: string = 'USD';
+  public fromCurrency: string = 'UAH';
+  public toCurrency: string = 'USD';
 
-  currentRate: number | undefined;
-  userInput: number | undefined;
-  result: string | undefined;
+  public firstAmount: number = 0;
+  public secondAmount: number = 0;
+  public amountFirstControl = new FormControl(0, [Validators.max(1000000000), Validators.pattern(Patterns.ValuePattern)]);
+  public amountSecondControl = new FormControl(0, [Validators.max(1000000000), Validators.pattern(Patterns.ValuePattern)]);
 
-  currency: Currency[] = [
+  public currency: Currency[] = [
     { value: 'UAH', name: 'UAH - Ukrainian hryvnia' },
     { value: 'USD', name: 'USD - United States dollar' },
     { value: 'EUR', name: 'EUR - Euro' },
@@ -27,21 +30,23 @@ export class ConverterPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public convertCurrency(): void {
-    this.currencyService.getCurrency(this.firstCurrency).subscribe(data => {
-      const res = JSON.stringify(data);
-      const currjson = JSON.parse(res);
-      const value = this.secondCurrency;
-      this.currentRate = currjson.rates[value]
-      this.calculateCurrency();
-    })
+  public convertCurrency(input: string, amount: number): void {
+    if(amount) {
+      const from = input === 'from' ? this.fromCurrency : this.toCurrency;
+      const to = input === 'from' ? this.toCurrency : this.fromCurrency;
+      this.currencyService.getConvCurrency(from, to, amount).subscribe(data => {
+        if(data) {
+          const res = JSON.stringify(data);
+          const currjson = JSON.parse(res);
+          input === 'from' ? this.secondAmount = currjson.result : this.firstAmount = currjson.result;
+        }
+      })
+    }
   }
 
-  calculateCurrency(): void {
-    if(this.userInput && this.currentRate) {
-      const res = this.userInput * this.currentRate;
-      this.result = res.toFixed(2);
-    }
+  public switchValues(): void {
+    this.firstAmount = [this.secondAmount, this.secondAmount = this.firstAmount][0];
+    this.fromCurrency = [this.toCurrency, this.toCurrency = this.fromCurrency][0];
   }
 
 }

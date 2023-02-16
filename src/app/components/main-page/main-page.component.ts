@@ -20,11 +20,12 @@ export class MainPageComponent implements OnInit {
 
   private getCurrency(currency: string): void {
     this.currencyService.getCurrency(currency).subscribe(data => {
-      console.log(data);
-      const res = JSON.stringify(data);
-      const currjson = JSON.parse(res);
-      const convertedValue = currjson.rates.UAH.toFixed(2)
-      currency === 'USD' ? this.usd = convertedValue : this.eur = convertedValue;
+      if(data) {
+        const res = JSON.stringify(data);
+        const currjson = JSON.parse(res);
+        const convertedValue = currjson.rates.UAH
+        currency === 'USD' ? this.usd = convertedValue : this.eur = convertedValue;
+      }
     })
   }
 
