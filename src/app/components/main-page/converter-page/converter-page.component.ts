@@ -1,23 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Currency } from 'src/app/models/currency';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-converter-page',
   templateUrl: './converter-page.component.html',
   styleUrls: ['./converter-page.component.scss']
 })
-export class ConverterPageComponent implements OnInit {
+export class ConverterPageComponent implements OnInit, OnDestroy {
 
-  public fromCurrency: string = 'UAH';
-  public toCurrency: string = 'USD';
-
-  public firstAmount: number = 0;
-  public secondAmount: number = 0;
-  public amountFirstControl = new FormControl(0, [Validators.max(1000000000), Validators.pattern(Patterns.ValuePattern)]);
-  public amountSecondControl = new FormControl(0, [Validators.max(1000000000), Validators.pattern(Patterns.ValuePattern)]);
+  public convertForm!: FormGroup;
 
   public currency: Currency[] = [
     { value: 'UAH', name: 'UAH - Ukrainian hryvnia' },
@@ -26,27 +22,60 @@ export class ConverterPageComponent implements OnInit {
     { value: 'GBP', name: 'GBP - British Pound' },
   ];
 
-  constructor(private currencyService: CurrencyService) {}
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit(): void {}
+  constructor(
+    private fb : FormBuilder,
+    private currencyService: CurrencyService) {
+  }
+
+  ngOnInit(): void {
+    this.convertForm = this.fb.group({
+      firstAmount: new FormControl('', [Validators.max(1000000000), Validators.pattern(Patterns.ValuePattern)]),
+      secondAmount: new FormControl('', [Validators.max(1000000000), Validators.pattern(Patterns.ValuePattern)]),
+      firstCurrency: new FormControl('USD', Validators.required),
+      secondCurrency: new FormControl('UAH', Validators.required)
+    })
+  }
+
+  get firstAmount() {
+    return this.convertForm.get('firstAmount');
+  }
+
+  get secondAmount() {
+    return this.convertForm.get('secondAmount');
+  }
+
+  get firstCurrency() {
+    return this.convertForm.get('firstCurrency');
+  }
+
+  get secondCurrency() {
+    return this.convertForm.get('secondCurrency');
+  }
 
   public convertCurrency(input: string, amount: number): void {
-    if(amount) {
-      const from = input === 'from' ? this.fromCurrency : this.toCurrency;
-      const to = input === 'from' ? this.toCurrency : this.fromCurrency;
-      this.currencyService.getConvCurrency(from, to, amount).subscribe(data => {
+    if(amount && this.convertForm.valid) {
+      const from = input === 'from' ? this.firstCurrency?.value : this.secondCurrency?.value;
+      const to = input === 'from' ? this.secondCurrency?.value : this.firstCurrency?.value;
+      this.currencyService.getConvCurrency(from, to, amount).pipe(takeUntil(this.destroy$)).subscribe(data => {
         if(data) {
           const res = JSON.stringify(data);
           const currjson = JSON.parse(res);
-          input === 'from' ? this.secondAmount = currjson.result : this.firstAmount = currjson.result;
+          input === 'from' ? this.secondAmount?.setValue(currjson.result) : this.firstAmount?.setValue(currjson.result);
         }
       })
     }
   }
 
   public switchValues(): void {
-    this.firstAmount = [this.secondAmount, this.secondAmount = this.firstAmount][0];
-    this.fromCurrency = [this.toCurrency, this.toCurrency = this.fromCurrency][0];
+    this.firstAmount?.setValue([this.secondAmount?.value, this.secondAmount?.setValue(this.firstAmount?.value)][0]);
+    this.firstCurrency?.setValue([this.secondCurrency?.value, this.secondCurrency?.setValue(this.firstCurrency?.value)][0]);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
 }

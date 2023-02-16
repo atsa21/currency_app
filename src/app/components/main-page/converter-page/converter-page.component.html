@@ -1,26 +1,55 @@
 <div class="main-container">
     <h1 class="title">Currency converter</h1>
     <div class="select-currency-box">
-      <div class="select-box">
+      <form [formGroup]="convertForm" class="select-box">
         <div>
-          <input [(ngModel)]="firstAmount" FormControlName="amountFirstControl" class="input-amount" type="number" min="0" placeholder="Enter amount" (ngModelChange)="convertCurrency('from', firstAmount)"/>
-          <select [(ngModel)]="fromCurrency" class="select" name="from" (mouseleave)="convertCurrency('from', firstAmount)" required>
-            <option *ngFor="let from of currency" [value]="from.value">
-              {{ from.name }}
-            </option>
-          </select>
+            <input
+                [value]="firstAmount?.value"
+                class="input-amount"
+                formControlName="firstAmount"
+                type="number"
+                min="0"
+                placeholder="Enter amount"
+                (keyup)="convertCurrency('from', firstAmount?.value)"
+            />
+            <select
+                formControlName="firstCurrency" 
+                class="select" 
+                name="from" 
+                required 
+                (change)="convertCurrency('from', firstAmount?.value)"
+            >
+                <option *ngFor="let from of currency" [value]="from.value">
+                    {{ from.name }}
+                </option>
+            </select>
+            <span *ngIf="firstAmount?.touched && firstAmount?.errors?.['pattern']" class="error">The minimum of amount value is 0.01</span>
         </div>
         <div class="btn" (click)="switchValues()">
             <i class="fa-solid fa-arrow-right-arrow-left"></i>
         </div>
         <div>
-            <input [(ngModel)]="secondAmount" FormControlName="amountSecondControl" class="input-amount" type="number" min="0" placeholder="Enter amount" (ngModelChange)="convertCurrency('to', secondAmount)"/>
-            <select [(ngModel)]="toCurrency" class="select" name="to" (mouseleave)="convertCurrency('to', secondAmount)" required>
+            <input
+                [value]="secondAmount?.value" 
+                class="input-amount" 
+                FormControlName="secondAmount" 
+                type="number" 
+                min="0" 
+                placeholder="Enter amount" 
+                (keyup)="convertCurrency('to', secondAmount?.value)"
+            />
+            <select 
+                formControlName="secondCurrency" 
+                class="select" 
+                name="to" 
+                required 
+                (change)="convertCurrency('from', secondAmount?.value)"
+            >
                 <option *ngFor="let to of currency" [value]="to.value">
                   {{ to.name }}
                 </option>
             </select>
         </div>
-      </div>
+    </form>
     </div>
   </div>

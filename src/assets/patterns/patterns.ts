@@ -1,3 +1,3 @@
 export const Patterns = {
-    ValuePattern: /^[\d](?!\D)(?!.*\D$)(?!.*?\D\D)[.,+\d]{0,2}$/
+    ValuePattern: /^(?!0\d*$)\d+(?:\.\d{1,2})?$/
 }
