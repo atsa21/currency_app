@@ -5,36 +5,31 @@
     align-items: center;
     width: 100%;
     height: 100%;
-}
 
-.select-box {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 32px;
-}
-
-.title {
-    text-align: center;
-    font-size: 64px;
-    margin-bottom: 36px;
-}
-
-.select {
-    font-size: 16px;
-    padding: 16px 32px;
-    margin-right: 16px;
-
-    &:focus {
-        border: 1px solid var(--white);
+    .title {
+        text-align: center;
+        font-size: 64px;
+        margin-bottom: 36px;
     }
+
+    .select-box {
+        display: flex;
+        gap: 16px;
+    }
+}
+
+.input-box {
+    background-color: var(--black);
+    border: 1px solid var(--white);
+    color: var(--white);
+    cursor: pointer;
 }
 
 .input-amount {
     font-size: 16px;
-    padding: 16px 32px;
-    margin-right: 16px;
+    padding: 16px 24px;
     background-color: var(--black);
-    border: 1px solid var(--white);
+    border: 0;
     color: var(--white);
 
     &:focus {
@@ -52,8 +47,14 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
-.select:hover {
+.select {
+    font-size: 16px;
+    padding: 16px 24px;
     cursor: pointer;
+
+    &:focus {
+        outline: 0;
+    }
 }
 
 .error {
@@ -68,5 +69,20 @@ input::-webkit-inner-spin-button {
     align-items: center;
     height: 59px;
     width: 59px;
+    border: 1px solid var(--white);
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        fill: var(--black);
+        background-color: var(--white);
+    }
+
+    svg {
+        cursor: pointer;
+        
+        &:hover {
+            fill: var(--black);
+        }
+    }
 }
