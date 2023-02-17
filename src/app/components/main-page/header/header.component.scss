@@ -1,0 +1,24 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    padding: 1% 2%;
+    background-color: var(--black);
+    border-bottom: 1px solid var(--white);
+
+    .current-rate-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: nowrap;
+
+        .current-rate {
+            min-width: 60%;
+            margin-left: 10%;
+            text-align: end;
+        }
+    }
+}

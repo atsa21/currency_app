@@ -1,0 +1,54 @@
+<div class="main-container">
+    <h1 class="title">Currency converter</h1>
+    <form [formGroup]="convertForm" class="select-box">
+        <div [ngClass]="firstAmount?.value && firstAmount?.invalid ? 'input-error' : ''" class="input-box">
+            <input
+                [value]="firstAmount?.value"
+                formControlName="firstAmount"
+                class="input-amount"
+                type="number"
+                min="0"
+                placeholder="Enter amount"
+                (keyup)="convertCurrency('from', firstAmount)"
+            />
+            <select
+                formControlName="firstCurrency" 
+                class="selectpicker select" 
+                name="from" 
+                required 
+                (change)="convertCurrency('from', firstAmount)"
+            >
+                <option *ngFor="let from of currency" [value]="from.value">
+                    {{ from.name }}
+                </option>
+            </select>
+            <span *ngIf="firstAmount?.value && firstAmount?.errors?.['min']" class="error">The minimum amount is 0,01</span>
+        </div>
+        <div class="btn" (click)="switchValues()">
+            <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" height="42" viewBox="0 96 960 960" width="42"><path d="M273 896 80 703l193-193 42 42-121 121h316v60H194l121 121-42 42Zm414-254-42-42 121-121H450v-60h316L645 298l42-42 193 193-193 193Z"/></svg>
+        </div>
+        <div [ngClass]="secondAmount?.value && secondAmount?.invalid ? 'input-error' : ''" class="input-box" >
+            <input
+                [value]="secondAmount?.value" 
+                formControlName="secondAmount" 
+                class="input-amount" 
+                maxlength="8"
+                type="number"
+                placeholder="Enter amount" 
+                (keyup)="convertCurrency('to', secondAmount)"
+            />
+            <select 
+                formControlName="secondCurrency" 
+                class="selectpicker select" 
+                name="to" 
+                required 
+                (change)="convertCurrency('from', firstAmount)"
+            >
+                <option *ngFor="let to of currency" [value]="to.value">
+                {{ to.name }}
+                </option>
+            </select>
+            <span *ngIf="secondAmount?.value && secondAmount?.errors?.['min']" class="error">The minimum amount is 0,01</span>
+        </div>
+    </form>
+  </div>
